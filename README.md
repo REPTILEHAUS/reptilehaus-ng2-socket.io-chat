@@ -42,7 +42,7 @@ nodemon server.js
 and enjoy chatting to yourself :)
 
 
-I wrote a brief post on this on my website: https://www.reptilehaus.io/#/blog/angular-2-and-socket-io-chat-app
+I wrote a brief post on this here: https://medium.com/@REPTILEHAUS/angular-2-and-socket-io-chat-app-f56afb9ceeb2
 
 Im accepting PR's and any enhancements for this so feel free to fork and add to it aespecially anyone taking part in Hacktoberfest.
 
