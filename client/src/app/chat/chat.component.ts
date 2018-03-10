@@ -4,15 +4,8 @@ import { ChatService } from '../chat.service';
 
 @Component({
   selector: 'app-chat',
-  template: `
-    <p>
-      REPTILEHAUS NG2 CHAT DEMO
-    </p>
-    <div *ngFor="let message of messages">
-      {{message.text}}
-    </div>
-    <input [(ngModel)]="message"  /><button (click)="sendMessage()">Send</button>  
-  `,
+  templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
@@ -20,9 +13,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   connection;
   message;
 
-  constructor(private chatService:ChatService) {}
+  constructor(private chatService: ChatService) { }
 
-  sendMessage(){
+  sendMessage() {
     this.chatService.sendMessage(this.message);
     this.message = '';
   }
@@ -32,7 +25,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.messages.push(message);
     })
   }
-  
+
   ngOnDestroy() {
     this.connection.unsubscribe();
   }
