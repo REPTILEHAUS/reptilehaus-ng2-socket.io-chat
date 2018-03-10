@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
 
-import { ChatService } from '../chat.service';
+import { ChatService } from '../shared/chat.service';
 
 @Component({
   selector: 'app-chat',
@@ -9,16 +9,13 @@ import { ChatService } from '../chat.service';
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
-  messages = [];
-  connection;
-  message;
+  @ViewChild('chatInput') chatInput: ElementRef;
+
+  public messages = [];
+  public connection;
+  public message;
 
   constructor(private chatService: ChatService) { }
-
-  sendMessage() {
-    this.chatService.sendMessage(this.message);
-    this.message = '';
-  }
 
   ngOnInit() {
     this.connection = this.chatService.getMessages().subscribe(message => {
@@ -28,5 +25,15 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.connection.unsubscribe();
+  }
+
+  sendMessage() {
+    this.chatService.sendMessage(this.message);
+    this.message = '';
+  }
+
+  @HostListener('click')
+  public autofocusInput() {
+    this.chatInput.nativeElement.focus();
   }
 }

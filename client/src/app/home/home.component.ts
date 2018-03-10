@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
-  template: `
-  <app-chat></app-chat>`
+  templateUrl: 'home.component.html',
+  styleUrls: ['home.component.css']
 })
 export class HomeComponent {
 

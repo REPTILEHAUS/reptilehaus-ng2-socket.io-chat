@@ -23,26 +23,23 @@ MongoClient.connect(dbconnection, (err, database) => {
     });
 });
 
-
-function databaseStore(message) {
+function databaseStore(message, timeStamp) {
     let storeData = {
         chatMessage: message,
-        timestamp: new Date().getTime()
+        timeStamp: timeStamp
     }
     db.collection('chatroom-chats').save(storeData, (err, result) => {
         if (err) {
             return console.log(err);
         }
-        console.log('saved to database')
+        console.log('saved to database');
     })
 }
 
 app.get('/', (req, res) => {
     // res.sendFile(__dirname + '/index.html')
-    res.send('REPTILEHAUS Chat Server')
+    res.send('Chat Server');
 })
-
-
 
 
 io.on('connection', (socket) => {
@@ -54,22 +51,17 @@ io.on('connection', (socket) => {
     });
 
     socket.on('add-message', (message) => {
+        const timeStamp = new Date().getTime();
         io.emit('message', {
             type: 'new-message',
-            text: message
+            text: message,
+            date: timeStamp
         });
         // Function above that stores the message in the database
-        databaseStore(message)
+        databaseStore(message, timeStamp);
     });
 
 });
-
-
-
-
-
-
-
 
 
 http.listen(5000, () => {
