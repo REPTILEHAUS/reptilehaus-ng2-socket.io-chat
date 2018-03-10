@@ -1,39 +1,39 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener, ViewChild, ElementRef } from '@angular/core';
 
-import { ChatService } from '../chat.service';
+import { ChatService } from '../shared/chat.service';
 
 @Component({
   selector: 'app-chat',
-  template: `
-    <p>
-      REPTILEHAUS NG2 CHAT DEMO
-    </p>
-    <div *ngFor="let message of messages">
-      {{message.text}}
-    </div>
-    <input [(ngModel)]="message"  /><button (click)="sendMessage()">Send</button>  
-  `,
+  templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.css']
 })
 export class ChatComponent implements OnInit, OnDestroy {
 
-  messages = [];
-  connection;
-  message;
+  @ViewChild('chatInput') chatInput: ElementRef;
 
-  constructor(private chatService:ChatService) {}
+  public messages = [];
+  public connection;
+  public message;
 
-  sendMessage(){
-    this.chatService.sendMessage(this.message);
-    this.message = '';
-  }
+  constructor(private chatService: ChatService) { }
 
   ngOnInit() {
     this.connection = this.chatService.getMessages().subscribe(message => {
       this.messages.push(message);
     })
   }
-  
+
   ngOnDestroy() {
     this.connection.unsubscribe();
+  }
+
+  sendMessage() {
+    this.chatService.sendMessage(this.message);
+    this.message = '';
+  }
+
+  @HostListener('click')
+  public autofocusInput() {
+    this.chatInput.nativeElement.focus();
   }
 }
